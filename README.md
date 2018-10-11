@@ -1,0 +1,2 @@
+# ReactPdfPrinter
+I am using the libraries [jsPdf](https://www.npmjs.com/package/jspdf) and [html2canvas](https://www.npmjs.com/package/html2canvas). I found that this is the most common way, it will print the component as it is in the web. Maybe we can do a different "printable" version.
