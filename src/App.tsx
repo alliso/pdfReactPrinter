@@ -11,6 +11,46 @@ class App extends React.PureComponent {
     this.printAll = this.printAll.bind(this)
   }
 
+  printToPdf(print: any) {
+
+    const component: any = document.getElementById(print)
+    html2canvas(component).then((canvas) => {
+      const doc = new jsPDF()
+      const imgData = canvas.toDataURL('image/png')
+      doc.addImage(imgData, 'PNG', 5, 10, 200, 30)
+      doc.autoPrint()
+      doc.save('sample-file.pdf')
+    })
+
+  }
+
+  printAll() {
+    const doc = new jsPDF()
+
+    let comp: any = document.getElementById('print1')
+    html2canvas(comp, {}).then((canvas: any) => {
+      const imgData = canvas.toDataURL('image/png')
+      doc.addImage(imgData, 'PNG', 5, 10, 200, 30)
+    })
+
+    comp = document.getElementById('print2')
+    html2canvas(comp, {}).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png')
+      doc.addImage(imgData, 'PNG', 5, 50, 200, 30)
+    })
+
+    comp = document.getElementById('print3')
+    html2canvas(comp, {})
+      .then((canvas: any) => {
+        const imgData = canvas.toDataURL('image/png')
+        doc.addImage(imgData, 'PNG', 5, 100, 200, 30)
+      })
+      .then(() => {
+        doc.autoPrint()
+        doc.save('sample-file.pdf')
+      })
+  }
+
   render() {
     return (
       <div>
@@ -39,44 +79,6 @@ class App extends React.PureComponent {
         <PrintButton print="Print All" onClick={() => this.printAll()} />
       </div>
     )
-  }
-  private printToPdf(print: any) {
-    const component: any = document.getElementById(print)
-    const doc = new jsPDF()
-
-    html2canvas(component).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png')
-      doc.addImage(imgData, 'PNG', 5, 10, 200, 30)
-    })
-    doc.autoPrint()
-    doc.save('sample-file.pdf')
-  }
-
-  private printAll() {
-    const doc = new jsPDF()
-
-    let comp: any = document.getElementById('print1')
-    html2canvas(comp, {}).then((canvas: any) => {
-      const imgData = canvas.toDataURL('image/png')
-      doc.addImage(imgData, 'PNG', 5, 10, 200, 30)
-    })
-
-    comp = document.getElementById('print2')
-    html2canvas(comp, {}).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png')
-      doc.addImage(imgData, 'PNG', 5, 50, 200, 30)
-    })
-
-    comp = document.getElementById('print3')
-    html2canvas(comp, {})
-      .then((canvas: any) => {
-        const imgData = canvas.toDataURL('image/png')
-        doc.addImage(imgData, 'PNG', 5, 100, 200, 30)
-      })
-      .then(() => {
-        doc.autoPrint()
-        doc.save('sample-file.pdf')
-      })
   }
 }
 
