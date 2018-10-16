@@ -1,2 +1,7 @@
 # ReactPdfPrinter
-I am using the libraries [jsPdf](https://www.npmjs.com/package/jspdf) and [html2canvas](https://www.npmjs.com/package/html2canvas). I found that this is the most common way, it will print the component as it is in the web. Maybe we can do a different "printable" version.
+I am using [react-pdf](https://github.com/diegomura/react-pdf). I found 3 issues:
+- The first issue is that the css that we can use it's a specific css for the library objects.
+- The second issue is that for use some css properties we need to render the object in the server and not in the client. I couldn't change the font or make it bold.
+- The last issue is that ReactPDF.render() should be a function but it's also only a function in the serverside.
+
+I know that it is no a pretty way but it's working.
