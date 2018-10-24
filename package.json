@@ -9,6 +9,7 @@
     "@types/jspdf": "^1.1.31",
     "axios": "^0.18.0",
     "cors": "^2.8.4",
+    "emotion": "^9.2.12",
     "express": "^4.16.4",
     "html2canvas": "^1.0.0-alpha.12",
     "jspdf": "^1.4.1",

@@ -1,8 +1,12 @@
 import * as React from 'react'
 import { Document, Page, Text, View, StyleSheet, Image, PDFViewer, Font, PDFDownloadLink} from '@react-pdf/renderer'
+import * as html2canvas from 'html2canvas'
+// import Mountain from './components/mountain'
 
 interface IProps {
   candidate: any,
+  isMounted?: boolean
+  mountain?: () => any,
 }
 
 const styles = StyleSheet.create({
@@ -28,7 +32,6 @@ const styles = StyleSheet.create({
 class Child extends React.PureComponent<IProps> {
   constructor(props) {
     super(props)
-
   }
 
   renderInfo(candidate) {
@@ -54,6 +57,22 @@ class Child extends React.PureComponent<IProps> {
     </View>)
   }
 
+  renderMountains() {
+    if (document.getElementById('mountain') as HTMLElement !== null ) {
+      const comp = document.getElementById('mountain') as HTMLElement
+      html2canvas(comp, {}).then((canvas: any) => {
+        const imgData = canvas.toDataURL('image/png')
+        // tslint:disable-next-line:no-console
+        console.log('Working till here2')
+        return <Image src={this.props.mountain} />
+      })}
+    }
+
+  componentDidMount() {
+    // tslint:disable-next-line:no-console
+    console.log('HI HI')
+  }
+
   render() {
     const candidate = this.props.candidate.applicant
     const skills = this.props.candidate.skills
@@ -75,20 +94,21 @@ class Child extends React.PureComponent<IProps> {
                   src={candidate.user.picture} />
                 {this.renderInfo(candidate)}
                 {this.renderSkills(skills)}
+                {this.renderMountains()}
             </View>
           </View>
         </Page>
       </Document>
     )
-
     return (
-      <div>
-        <PDFViewer style={{width: 800, height: 700}}>{document}</PDFViewer>
+        <div>
+        <PDFViewer style={{width: 800, height: 700}}>{document}</PDFViewer>}
         <PDFDownloadLink document={document} fileName="somename.pdf">
           {({ blob, url, loading, error }) => (
             loading ? 'Loading document...' : 'Download now!'
           )}
       </PDFDownloadLink>
+      {this.renderMountains()}
       </div>
       )
   }
