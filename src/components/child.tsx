@@ -1,12 +1,27 @@
 import * as React from 'react'
-import { Document, Page, Text, View, StyleSheet, Image, PDFViewer, Font, PDFDownloadLink} from '@react-pdf/renderer'
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  PDFViewer,
+  Font,
+  PDFDownloadLink,
+} from '@react-pdf/renderer'
 import * as html2canvas from 'html2canvas'
 // import Mountain from './components/mountain'
 
 interface IProps {
-  candidate: any,
-  isMounted?: boolean
-  mountain?: () => any,
+  candidate: any
+  isMounted?: any
+  mountain?: () => any
+}
+
+interface IState {
+  flag: boolean
+  mountain: any
 }
 
 const styles = StyleSheet.create({
@@ -15,7 +30,11 @@ const styles = StyleSheet.create({
   },
   picture: {
     marginRight: 50,
-    width: 50,
+    width: 600,
+    height: 50,
+  },
+  mountain: {
+    marginRight: 50,
     height: 50,
   },
   title: {
@@ -29,14 +48,15 @@ const styles = StyleSheet.create({
   },
 })
 
-class Child extends React.PureComponent<IProps> {
+class Child extends React.PureComponent<IProps, IState> {
   constructor(props) {
     super(props)
+    this.setState({ flag: false })
   }
 
   renderInfo(candidate) {
     return (
-      <View style={{marginRight: 50}}>
+      <View style={{ marginRight: 50 }}>
         <Text>Info</Text>
         <Text style={styles.text}>Connected: {candidate.created}</Text>
         <Text style={styles.text}>Address: {candidate.user.address}</Text>
@@ -47,70 +67,66 @@ class Child extends React.PureComponent<IProps> {
 
   renderSkills(skills) {
     const components = skills.map((item, key) => (
-      <Text key={key} style={styles.text}>{item.title}</Text>
-    ),
-    )
+      <Text key={key} style={styles.text}>
+        {item.title}
+      </Text>
+    ))
     return (
-    <View>
-      <Text>Skills</Text>
-      {components}
-    </View>)
+      <View>
+        <Text>Skills</Text>
+        {components}
+      </View>
+    )
   }
-
-  renderMountains() {
-    if (document.getElementById('mountain') as HTMLElement !== null ) {
-      const comp = document.getElementById('mountain') as HTMLElement
-      html2canvas(comp, {}).then((canvas: any) => {
-        const imgData = canvas.toDataURL('image/png')
-        // tslint:disable-next-line:no-console
-        console.log('Working till here2')
-        return <Image src={this.props.mountain} />
-      })}
-    }
 
   componentDidMount() {
-    // tslint:disable-next-line:no-console
-    console.log('HI HI')
+    const mont = document.getElementById('mountain')
+
+    html2canvas(mont, {}).then((canvas) => {
+      const base64canvas = canvas.toDataURL('image/png')
+      this.setState({ flag: true, mountain: base64canvas })
+      // tslint:disable-next-line:no-console
+    })
   }
 
-  render() {
+  renderPDF() {
     const candidate = this.props.candidate.applicant
     const skills = this.props.candidate.skills
 
-    const source = './fonts/fonts/Lato/Lato-Bold.ttf'
-    Font.register(source, { family: 'FamilyName' })
-
-    Font.register('./fonts/fonts/Lato/Lato-Bold.ttf', {
-      family: 'LatoBold',
-    })
-
-    const document = (
+    const pdf = (
       <Document>
-        <Page size="A4" >
+        <Page size="A4">
           <View style={styles.fullpage}>
-            <Text style={styles.title}>{candidate.user.firstName} {candidate.user.lastName}</Text>
+            <Text style={styles.title}>
+              {candidate.user.firstName} {candidate.user.lastName}
+            </Text>
             <View style={styles.view}>
-              <Image style={styles.picture}
-                  src={candidate.user.picture} />
-                {this.renderInfo(candidate)}
-                {this.renderSkills(skills)}
-                {this.renderMountains()}
+              <Image style={styles.picture} src={candidate.user.picture} />
+              {this.renderInfo(candidate)}
+              {this.renderSkills(skills)}
             </View>
+            <Image style={styles.mountain} src={this.state.mountain} />
           </View>
         </Page>
       </Document>
     )
     return (
-        <div>
-        <PDFViewer style={{width: 800, height: 700}}>{document}</PDFViewer>}
-        <PDFDownloadLink document={document} fileName="somename.pdf">
-          {({ blob, url, loading, error }) => (
+      <div>
+        <PDFViewer style={{ width: 800, height: 700 }}>{pdf}</PDFViewer>
+        <PDFDownloadLink document={pdf} fileName="somename.pdf">
+          {({ blob, url, loading, error }) =>
             loading ? 'Loading document...' : 'Download now!'
-          )}
-      </PDFDownloadLink>
-      {this.renderMountains()}
+          }
+        </PDFDownloadLink>
       </div>
-      )
+    )
+  }
+
+  render() {
+    // tslint:disable-next-line:no-console
+    if (this.state) console.log('state', this.state.mountain)
+
+    return <div>{this.state && this.state.flag ? this.renderPDF() : null}</div>
   }
 }
 
