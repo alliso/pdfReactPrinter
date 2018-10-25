@@ -30,11 +30,7 @@ const styles = StyleSheet.create({
   },
   picture: {
     marginRight: 50,
-    width: 600,
-    height: 50,
-  },
-  mountain: {
-    marginRight: 50,
+    width: 50,
     height: 50,
   },
   title: {
@@ -52,6 +48,8 @@ class Child extends React.PureComponent<IProps, IState> {
   constructor(props) {
     super(props)
     this.setState({ flag: false })
+    this.renderInfo = this.renderInfo.bind(this)
+    this.renderSkills = this.renderSkills.bind(this)
   }
 
   renderInfo(candidate) {
@@ -85,7 +83,6 @@ class Child extends React.PureComponent<IProps, IState> {
     html2canvas(mont, {}).then((canvas) => {
       const base64canvas = canvas.toDataURL('image/png')
       this.setState({ flag: true, mountain: base64canvas })
-      // tslint:disable-next-line:no-console
     })
   }
 
@@ -105,7 +102,7 @@ class Child extends React.PureComponent<IProps, IState> {
               {this.renderInfo(candidate)}
               {this.renderSkills(skills)}
             </View>
-            <Image style={styles.mountain} src={this.state.mountain} />
+            <Image  src={this.state.mountain} />
           </View>
         </Page>
       </Document>
@@ -123,9 +120,6 @@ class Child extends React.PureComponent<IProps, IState> {
   }
 
   render() {
-    // tslint:disable-next-line:no-console
-    if (this.state) console.log('state', this.state.mountain)
-
     return <div>{this.state && this.state.flag ? this.renderPDF() : null}</div>
   }
 }
