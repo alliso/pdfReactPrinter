@@ -2,6 +2,7 @@ import * as React from 'react'
 import Child from './components/child'
 import Candidate from './objects/candidate'
 import Mountain from './components/mountain'
+import { css } from 'emotion'
 
 class App extends React.PureComponent {
   constructor(props: any) {
@@ -9,6 +10,9 @@ class App extends React.PureComponent {
   }
 
   render() {
+    const style = css`
+      font-family: 'Titillium Web';
+      `
     const data = new Candidate().loadProps()
     const skills = [
       {
@@ -22,11 +26,12 @@ class App extends React.PureComponent {
     ]
     return (
       <div>
+        <h1 className={style} >PDF</h1>
         <h1>PDF</h1>
         <div id="mountain">
           <Mountain skills={skills} maxWidth={700} />
+          <Child candidate={data}/>
         </div>
-        <Child candidate={data}/>
       </div>
     )
   }

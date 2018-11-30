@@ -7,15 +7,18 @@
     "@types/express": "^4.16.0",
     "@types/html2canvas": "0.0.35",
     "@types/jspdf": "^1.1.31",
+    "ajv": "^6.6.1",
     "axios": "^0.18.0",
     "cors": "^2.8.4",
     "emotion": "^9.2.12",
     "express": "^4.16.4",
+    "fontkit": "^1.7.7",
     "html2canvas": "^1.0.0-alpha.12",
     "pdfmake": "^0.1.38",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts-ts": "3.1.0"
+    "react-scripts-ts": "^4.0.8",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -28,6 +31,13 @@
     "@types/node": "^10.11.7",
     "@types/react": "^16.4.16",
     "@types/react-dom": "^16.0.9",
-    "typescript": "^3.1.2"
-  }
+    "@types/webfontloader": "^1.6.29",
+    "typescript": "^3.2.1"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

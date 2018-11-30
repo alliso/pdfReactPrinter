@@ -11,7 +11,6 @@ import {
   PDFDownloadLink,
 } from '@react-pdf/renderer'
 import * as html2canvas from 'html2canvas'
-// import Mountain from './components/mountain'
 
 interface IProps {
   candidate: any
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 12,
+    fontFamily: 'Ubuntu-Regular',
   },
   view: {
     flexDirection: 'row',
@@ -120,6 +120,8 @@ class Child extends React.PureComponent<IProps, IState> {
   }
 
   render() {
+    const source = 'https://cdn.jsdelivr.net/gh//google/fonts/ufl/ubuntu/Ubuntu-Regular.ttf'
+    Font.register(source, {family: 'Ubuntu-Regular'})
     return <div>{this.state && this.state.flag ? this.renderPDF() : null}</div>
   }
 }
